@@ -10,7 +10,7 @@ while working with a huge files. Also possible to use a files as memory banks to
 a memory usage.
 
 # Example of usage
-```C++
+```cpp
 #include "file_mapper.h"
 
 //...
@@ -24,10 +24,10 @@ if( !myfile.open("/path/to/the/hugetankofoil.dat") ) //All paths are must be enc
 }
 
 //Pointer to the file data
-char* data = myfile.data;
+char* data = reinterpret_cast<char*>(myfile.data());
 
 //Size of the file in bytes
-unsigned long filesize = myfile.size;
+unsigned long filesize = myfile.size();
 
 /*
 Then you can manipulate with file data like it's data in the memory.
@@ -41,3 +41,4 @@ myfile.close_file();
 //...
 
 ```
+
