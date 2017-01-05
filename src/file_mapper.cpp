@@ -35,7 +35,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/mman.h>
-#elif FileMapper_Windows
+#endif
+#ifdef FileMapper_Windows
 #include <windows.h>
 #endif
 
@@ -73,6 +74,9 @@ public:
     }
 };
 
+/*
+ *   Implementation for POSIX-compatible operating system
+ */
 #ifdef FileMapper_POSIX
 bool FileMapper::FileMapper_private::openFile(const std::string &path)
 {
@@ -133,15 +137,19 @@ bool FileMapper::FileMapper_private::closeFile()
     m_size      = 0;
     return ret;
 }
+#endif
 
-#elif FileMapper_Windows
+/*
+ *   Implementation for Microsoft Windows OS
+ */
+#ifdef FileMapper_Windows
 bool FileMapper::FileMapper_private::openFile(const std::string &path)
 {
     m_error.clear();
     std::wstring wpath;
-    dest.resize(path.size());
-    int newlen = MultiByteToWideChar(CP_UTF8, 0, path.c_str(), path.length(), &dest[0], path.length());
-    dest.resize(newlen);
+    wpath.resize(path.size());
+    int newlen = MultiByteToWideChar(CP_UTF8, 0, path.c_str(), path.length(), &wpath[0], path.length());
+    wpath.resize(newlen);
     m_File = CreateFileW(wpath.c_str(), GENERIC_READ, 1, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
     if(m_File == INVALID_HANDLE_VALUE)
     {
@@ -159,7 +167,7 @@ bool FileMapper::FileMapper_private::openFile(const std::string &path)
         return false;
     }
 
-    m_Address = MapViewOfFile(m_Map, FILE_MAP_READ, 0, 0, static_cast<long>(size));
+    m_Address = MapViewOfFile(m_Map, FILE_MAP_READ, 0, 0, static_cast<long>(m_size));
     if(m_Address == NULL)
     {
         CloseHandle(m_Map);
