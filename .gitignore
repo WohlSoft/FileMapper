@@ -1,0 +1,5 @@
+/bin/FileMapper-Test*
+build-*
+*.user
+*.o
+
