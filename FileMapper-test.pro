@@ -5,8 +5,7 @@ CONFIG += console
 TARGET = FileMapper-Test
 DESTDIR = $$PWD/bin
 
-include(src/FileMapper.pri)
+include(FileMapper.pri)
 
 SOURCES += \
     test/test.cpp
-

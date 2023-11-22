@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string>
-#include "../src/file_mapper.h"
+#include <FileMapper/file_mapper.h>
 
 int main(int , char**)
 {

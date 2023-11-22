@@ -20,7 +20,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-#include "file_mapper.h"
+#include "../include/FileMapper/file_mapper.h"
 #if defined(__unix__) || defined(__APPLE__) || defined(__HAIKU__) || defined(__ANDROID__)
 #   define FileMapper_POSIX
 #   if defined(__ANDROID__)
